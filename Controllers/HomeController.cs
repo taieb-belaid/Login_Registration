@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using LoginRegistration.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace LoginRegistration.Controllers;
 
@@ -24,6 +25,9 @@ public class HomeController : Controller
     [HttpGet("success")]
     public IActionResult Success()
     {
+        if(HttpContext.Session.GetString("userName") == null){
+            return RedirectToAction("Index");
+        }
         return View();
     }
     //___________REGISTER_POST________
@@ -41,7 +45,7 @@ public class HomeController : Controller
             newUser.Password = hasher.HashPassword(newUser, newUser.Password);
             _context.Add(newUser);
             _context.SaveChanges();  
-            return RedirectToAction("success");
+            return RedirectToAction("Index");
         }
 
         return View("Index");
@@ -65,6 +69,7 @@ public class HomeController : Controller
                 ModelState.AddModelError("LogEmail","Something went wrong");
                 return View("Index");
             }
+        HttpContext.Session.SetString("userName", userInDb.FirstName);
         return View("success");   
         }
         return View("Index");
@@ -74,6 +79,7 @@ public class HomeController : Controller
     [HttpGet("logout")]
     public IActionResult Logout()
     {
+        HttpContext.Session.Clear();
         return View("Index");
     }
 

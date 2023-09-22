@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using LoginRegistration.Models;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpContextAccessor();
 //  Creates the db connection string
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 // Adds database connection - must be before app.Build();
@@ -10,6 +11,7 @@ builder.Services.AddDbContext<MyContext>(options =>
 });
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();  
 
 var app = builder.Build();
 
@@ -23,6 +25,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
