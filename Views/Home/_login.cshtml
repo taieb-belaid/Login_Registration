@@ -1,0 +1,17 @@
+@model LogUser  
+            <form action="/user/login" method="post">
+    <div class="container d-flex justify-content-evenly mt-5 ">
+        
+        <div class="left ">
+
+            <label class="form-label">Email :</label>
+            <input type="email" asp-for="LogEmail" class="form-control">
+            <span asp-validation-for="LogEmail" class="text-danger"></span>
+
+            <label class="form-label">Password :</label>
+            <input type="password" asp-for="LogPassword" class="form-control">
+            <span asp-validation-for="LogPassword" class="text-danger"></span>
+
+
+            <input type="submit" value="Login" class="btn btn-primary mt-5">
+            </form>
